@@ -23,7 +23,7 @@ const ResumeSchema = mongoose.Schema({
     email: String,
     linkedIn: String,
     phone: String,
-    text: String
+    rawData: String
 })
 
 const Resume = mongoose.model("Resume", ResumeSchema)
@@ -45,7 +45,7 @@ app.post("/savedata", async (req, res) => {
             email: req.body.email,
             phone: req.body.phone,
             linkedIn: req.body.linkenInURL,
-            text: req.body.text
+            rawData: req.body.text
         }
     )
     await myData.save()

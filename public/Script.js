@@ -66,7 +66,7 @@ btnUpload.addEventListener("click", () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-        })
+        }).then(alert("Saved successfully")).catch(alert("Failed to save"))
     } else {
         alert("Please upload file")
     }
