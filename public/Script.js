@@ -7,30 +7,12 @@ const phoneRegex = new RegExp(/\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,1
 const IDRegex = new RegExp(/^\d{9}$/);
 var pdfText = "";
 
-const regexList = {
-    id: new RegExp(/^\d{9}$/),
-    email: new RegExp(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9_-]+)/),
-    linkenInURL: new RegExp(/^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/gm),
-    phone: new RegExp(/\b[\+]?[(]?[0-9]{2,6}[)]?[-\s\.]?[-\s\/\.0-9]{3,15}\b/m)
-}
-
 var resume = {
     id: null,
     email: null,
     linkenInURL: null,
     phone: null,
     text: null
-}
-
-const checkFields = (text, regex) => {
-    for(let i = 0; i < Object.keys(regex).length; i++){
-        try {
-            Object.values(resume)[i] = text.match(Object.values(regex)[i])[0];
-        } catch {
-            resume[i] = null;
-        }
-        console.log(Object.values(resume)[i])
-    }
 }
 
 inputFile.addEventListener("change", () => {
@@ -55,7 +37,26 @@ inputFile.addEventListener("change", () => {
 
 btnUpload.addEventListener("click", () => {
     if (inputFile.files.length > 0) {
-        checkFields(pdfText, regexList);
+        try {
+            resume.id = pdfText.match(IDRegex)[0];
+        } catch {
+            resume.id = null
+        }
+        try {
+            resume.email = pdfText.match(emailRegex)[0];
+        } catch {
+            resume.email = null
+        }
+        try {
+            resume.phone = pdfText.match(phoneRegex)[0];
+        } catch {
+            resume.id = null
+        }
+        try {
+            resume.linkenInURL = pdfText.match(linkedInRegex)[0];
+        } catch {
+            resume.linkenInURL = null
+        }
         resume.text = pdfText;
         resultText.value = `id:${resume.id}\nemail: ${resume.email}\nphone: ${resume.phone}\nlinkedIn: ${resume.linkenInURL}`;
 
